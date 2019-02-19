@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faWindowClose, faCheck } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
 
 class Form extends Component {
@@ -25,10 +27,13 @@ class Form extends Component {
     const { fieldValue, errorMsg } = this.state
     return (
       <div>
-        <h3>Todo List</h3>
-        <div className="input-group">
+        <h3>Adicionar tarefas</h3>
+        <div className="group">
+          <label className="label">Escreva uma tarefa</label>
           <input className="input" onChange={this.handleChange} value={fieldValue} type="text" name="addTodo" />
-          <Button color="success" onClick={this.submitFieldValue}>Add Todo</Button>
+          <button className="button sm info" onClick={this.submitFieldValue}>
+            <FontAwesomeIcon icon={faPlus}/>
+          </button>
           {errorMsg ? <span>{errorMsg}</span> : null}
         </div>
       </div>
@@ -79,14 +84,6 @@ class App extends Component {
     this.setState({ todo: [...todo, item] })
   }
 
-  todoActions = () => {
-    return (
-      <div>
-        <Button color="danger">X</Button>
-        <Button color="info">V</Button>
-      </div>
-    )
-  }
 
   removeTodoItem = index => {
     const {todo} = this.state
@@ -108,8 +105,12 @@ class App extends Component {
   todoActions = item => {
     return(
       <div>
-        <Button color="danger" onClick={() => this.removeTodoItem(item)}>Remover</Button>
-        <Button color="info" onClick={() => this.moveToDone(item)}>Concluir</Button>
+        <button className="button text-danger" onClick={() => this.removeTodoItem(item)}>
+          <FontAwesomeIcon icon={faWindowClose}/>
+        </button>
+        <button className="button text-info" onClick={() => this.moveToDone(item)}>
+          <FontAwesomeIcon icon={faCheck}/>
+        </button>
       </div>
     )
   }
@@ -125,6 +126,10 @@ class App extends Component {
             <List list={todo} actions={this.todoActions}/>
           </Col>
           <Col sm={12} md={6}>
+            <h3>Tarefas Concluídas <span className="text-success">
+            <FontAwesomeIcon icon={faCheck}/>
+            </span></h3>
+            <div className="spacer"></div>
             <List list={done} />
           </Col>
         </Row>

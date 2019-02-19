@@ -1,33 +1,90 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+
+body{
+  font-family: 'Open Sans', sans-serif;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.input{
+  border-width: 0px 0px 2px 0px ;
+  margin-right: 10px;
+  transition: color 0.3s ease-in-out;
+  font-weight: 300;
+  width: 90%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.label{
+  display: block;
+  font-weight: 700;
+  margin: 5px 0px;
 }
 
-.App-link {
-  color: #61dafb;
+.input:focus{
+  transition: color 0.3s ease-in-out;
+  outline: none;
+  border-color: #2e86de;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button{
+  background: transparent;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: transparent;
+  padding: 6px 10px;
+  margin: 0px 5px;
+}
+
+.button:focus{
+  outline: none;
+}
+
+.button.info{
+  background: #2e86de;
+  border: none;
+  color: #fff;
+}
+
+.button.danger{
+  background: #de2e2e;
+  border: none;
+  color: #fff;
+}
+
+
+.button.info:hover{
+  transition: all 0.2s ease-in-out;
+  background: #3691eb;
+}
+
+.todo-list{
+  margin-top:20px;
+}
+
+.todo-item{
+  width: 100%;
+  border-bottom: 1px solid #c3c3c3;
+  position: relative;
+  display: block;
+  padding: 20px 0px;
+}
+
+.todo-item .item{
+  flex-grow:1;
+  position: absolute;
+  bottom: 1px;
+  color: #4c4c4c;
+  font-style: italic;
+}
+
+.actions{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: inline-block;
+  text-align: right;
+}
+
+.spacer{
+  clear: both;
+  display: block;
+  height: 64px;
 }
