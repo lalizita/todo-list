@@ -88,21 +88,34 @@ class App extends Component {
     )
   }
 
-  removeTodoItem = item => {
+  removeTodoItem = index => {
     const {todo} = this.state
+    const newTodoList = todo.filter((item, i) => {
+      if(i !== index) return item[i]
+    })
+    this.setState({todo:newTodoList})
+  }
+
+  moveToDone = index => {
+    const {todo, done} = this.state
+    const doneItem = todo[index]
+    const newTodoList = todo.filter((item, i) => {
+      if(i !== index) return item[i]
+    })
+    this.setState({todo:newTodoList, done:[...done, doneItem]})
   }
 
   todoActions = item => {
     return(
       <div>
         <Button color="danger" onClick={() => this.removeTodoItem(item)}>Remover</Button>
-        <Button color="info">Concluir</Button>
+        <Button color="info" onClick={() => this.moveToDone(item)}>Concluir</Button>
       </div>
     )
   }
 
   render() {
-    const { todo } = this.state
+    const { todo, done } = this.state
 
     return (
       <Container>
@@ -112,7 +125,7 @@ class App extends Component {
             <List list={todo} actions={this.todoActions}/>
           </Col>
           <Col sm={12} md={6}>
-            <List />
+            <List list={done} />
           </Col>
         </Row>
       </Container>
