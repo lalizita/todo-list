@@ -1,81 +1,19 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faWindowClose, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
+import List from './components/List'
+import Form from './components/Form'
 import './App.css';
-
-class Form extends Component {
-  state = {
-    fieldValue: '',
-    errorMsg: ''
-  }
-
-  handleChange = event => this.setState({ fieldValue: event.target.value })
-
-  submitFieldValue = event => {
-    const { fieldValue } = this.state
-    event.preventDefault()
-    if (!fieldValue) {
-      this.setState({ errorMsg: "O campo precisa estar preenchido" })
-      return
-    }
-    this.props.addTodo(fieldValue)
-    this.setState({ errorMsg: "", fieldValue: "" })
-  }
-
-  render = () => {
-    const { fieldValue, errorMsg } = this.state
-    return (
-      <div>
-        <h3>Adicionar tarefas</h3>
-        <div className="group">
-          <label className="label">Escreva uma tarefa</label>
-          <input className="input" onChange={this.handleChange} value={fieldValue} type="text" name="addTodo" />
-          <button className="button sm info" onClick={this.submitFieldValue}>
-            <FontAwesomeIcon icon={faPlus}/>
-          </button>
-          {errorMsg ? <span>{errorMsg}</span> : null}
-        </div>
-      </div>
-    )
-  }
-}
-
-class List extends Component {
-  renderList = () => {
-    const { actions, list } = this.props
-    return(
-      list.map((element, index) => (
-        <div className="todo-item" key={index}>
-          <div className="item">
-          {element}
-          </div>
-          {actions ? (
-            <div className="actions">
-              {actions(index)}
-            </div>
-          ): null}
-        </div>
-      ))
-    )
-  }
-
-  render = () => {
-    const { list } = this.props
-    return (
-      <div className="todo-list">
-        {list && list.length > 0 ? this.renderList() : null}
-      </div>
-    )
-  }
-}
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       todo: [],
-      done: []
+      done: [],
+      successMsg:'',
+      alertVisible:false
     }
   }
 
@@ -91,6 +29,7 @@ class App extends Component {
       if(i !== index) return item[i]
     })
     this.setState({todo:newTodoList})
+    this.showSuccessMessage('Tarefa removida')
   }
 
   moveToDone = index => {
@@ -100,13 +39,22 @@ class App extends Component {
       if(i !== index) return item[i]
     })
     this.setState({todo:newTodoList, done:[...done, doneItem]})
+    this.showSuccessMessage('Tarefa concluída')
+  }
+
+  showSuccessMessage = msg => {
+    this.setState({successMsg:msg, alertVisible:true}, () => {
+      setTimeout(() => {
+        this.setState({successMsg:'', alertVisible:false})
+      }, 3000)
+    })
   }
 
   todoActions = item => {
     return(
       <div>
         <button className="button text-danger" onClick={() => this.removeTodoItem(item)}>
-          <FontAwesomeIcon icon={faWindowClose}/>
+          <FontAwesomeIcon icon={faTimes}/>
         </button>
         <button className="button text-info" onClick={() => this.moveToDone(item)}>
           <FontAwesomeIcon icon={faCheck}/>
@@ -116,13 +64,14 @@ class App extends Component {
   }
 
   render() {
-    const { todo, done } = this.state
+    const { todo, done, successMsg, alertVisible } = this.state
 
     return (
       <Container>
         <Row>
           <Col sm={12} md={6}>
             <Form addTodo={this.addTodoItem} />
+            {alertVisible ? <Alert color="success">{successMsg}</Alert> : null}
             <List list={todo} actions={this.todoActions}/>
           </Col>
           <Col sm={12} md={6}>

@@ -12,6 +12,16 @@ body{
   width: 90%;
 }
 
+.input.error{
+  transition: color 0.3s ease-in-out;
+  border-color: #de2e2e;
+}
+
+.error-msg{
+  font-size: 12px;
+  color: #de2e2e;
+}
+
 .label{
   display: block;
   font-weight: 700;
