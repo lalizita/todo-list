@@ -63,6 +63,8 @@ class App extends Component {
     )
   }
 
+  cleanDoneTasks = () => this.setState({done:[]})
+
   render() {
     const { todo, done, successMsg, alertVisible } = this.state
 
@@ -80,6 +82,7 @@ class App extends Component {
             </span></h3>
             <div className="spacer"></div>
             <List list={done} />
+            {done.length > 0 ? <button className="button info" onClick={this.cleanDoneTasks} style={{marginTop:10, marginLeft:0}}>limpar tarefas concluídas</button> : null}
           </Col>
         </Row>
       </Container>
